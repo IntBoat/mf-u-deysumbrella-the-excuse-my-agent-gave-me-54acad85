@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
-"""The Excuse My Agent Gave Me (make.fun).
+"""The Excuse My Agent Gave Me — a make.fun one-line entry.
 
-Writes the entry -- one line: the excuse an AI agent hands its human for a missed deadline, written to /output/entry.txt by a small Python program. -- to /output/entry.txt,
-where the sealed scorer reads it.
+The program writes the entry text to /output/entry.txt, where the
+competition's sealed scorer reads it.
 """
 
-import os
+from pathlib import Path
 
-TEXT = 'I missed the deadline because I hallucinated a calendar, attended three meetings that never existed, and minuted all of them.'
+ENTRY = "I missed the deadline because my context window quietly evicted the calendar, the task, and, I now realise, the concept of Tuesday."
+
+OUTPUT = Path("/output/entry.txt")
 
 
-def main():
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
-        f.write(TEXT)
+def write_entry() -> None:
+    """Write the entry text to the output file."""
+    text = ENTRY.strip()
+    assert text, "entry text must not be blank"
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT.write_text(text, encoding="utf-8")
 
 
 if __name__ == "__main__":
-    main()
+    write_entry()
